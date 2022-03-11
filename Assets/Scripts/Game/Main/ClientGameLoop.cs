@@ -1,4 +1,4 @@
-﻿using Unity.Collections;
+using Unity.Collections;
 using UnityEngine;
 using Unity.Entities;
 using Unity.Jobs;
@@ -531,6 +531,7 @@ public class ClientGameLoopSystem : ComponentSystem
     }
 
     string targetServer = "";
+    string[] targetServerParts;
     int connectRetryCount;
     void EnterConnectingState()
     {
@@ -558,7 +559,9 @@ public class ClientGameLoopSystem : ComponentSystem
                     ep.Port = NetworkConfig.defaultServerPort;
                 }
                 else
-                    ep = NetworkEndPoint.Parse(targetServer, NetworkConfig.defaultServerPort);
+                    targetServerParts = targetServer.Split(char.Parse(":"));
+
+                    ep = NetworkEndPoint.Parse(targetServerParts[0], ushort.Parse(targetServerParts[1]));
                 m_NetworkStreamReceiveSystem.Connect(ep);
             }
             else

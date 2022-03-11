@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Unity.Entities;
 using UnityEngine.Profiling;
 using SQP;
@@ -418,7 +418,7 @@ public class ServerGameLoopSystem : JobComponentSystem
         if (serverServerName.Value == "")
             serverServerName.Value = MakeServername();
 
-        //m_ServerQueryProtocolServer = new SQP.SQPServer(NetworkConfig.serverSQPPort.IntValue > 0 ? NetworkConfig.serverSQPPort.IntValue : NetworkConfig.serverPort.IntValue + NetworkConfig.sqpPortOffset);
+        m_ServerQueryProtocolServer = new SQP.SQPServer(NetworkConfig.serverSQPPort.IntValue > 0 ? NetworkConfig.serverSQPPort.IntValue : NetworkConfig.serverPort.IntValue + NetworkConfig.sqpPortOffset);
 
 
         m_GameWorld = World;
@@ -521,7 +521,7 @@ public class ServerGameLoopSystem : JobComponentSystem
             }
         }
 
-        /*
+        
         // Update SQP data with current values
         var sid = m_ServerQueryProtocolServer.ServerInfoData;
         sid.BuildId = Game.game.buildId;
@@ -533,7 +533,6 @@ public class ServerGameLoopSystem : JobComponentSystem
         sid.ServerName = serverServerName.Value;
 
         m_ServerQueryProtocolServer.Update();
-        */
 
         Profiler.EndSample();
     }
@@ -750,7 +749,7 @@ public class ServerGameLoopSystem : JobComponentSystem
     public double m_nextTickTime = 0;
     string m_RequestedGameMode = "deathmatch";
 
-    //SQPServer m_ServerQueryProtocolServer;
+    SQPServer m_ServerQueryProtocolServer;
 
 #pragma warning disable 649
     [ConfigVar(Name = "show.gameloopinfo", DefaultValue = "0", Description = "Show gameloop info")]
